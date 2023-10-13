@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace对应哪个mapper文件 -->
+<mapper namespace="com.charmai.oss.client.mapper.UploadPicMapper">
+    <!--    id对应mapper里面的方法名;resultType是方法返回的数据类型，对应实体类的数据库类-->
+    <insert id="saveUrl" useGeneratedKeys="true" keyProperty="oss_id">
+        insert into charmai values (#{oss_id}, #{file_name}, #{original_name}, #{file_suffix}, #{url})
+    </insert>
+</mapper>

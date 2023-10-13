@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.charmai.miniapp.mapper.TemplateMapper">
+    <select id="searchTemplate" resultType="com.charmai.miniapp.entity.TemplateEntity">
+        select template_id,template_name,template_description,template_mapping, cover_url,used from model_template
+                                                                        where model_template.type_cue like concat('%',#{type_cue},'%')
+    </select>
+
+    <select id="getTemplateById" resultType="com.charmai.miniapp.entity.TemplateEntity">
+        select template_id,template_name,template_description,template_mapping, cover_url,used from model_template
+        where model_template.template_id = #{templateId}
+    </select>
+</mapper>

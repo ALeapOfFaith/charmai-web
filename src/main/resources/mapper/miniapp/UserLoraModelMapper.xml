@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace对应哪个mapper文件 -->
+<mapper namespace="com.charmai.miniapp.mapper.UserLoraModelMapper">
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="com.charmai.miniapp.entity.UserLoraModelEntity" id="userLoraModelMap">
+        <result property="id" column="id"/>
+        <result property="userId" column="user_id"/>
+        <result property="loraUrl" column="lora_url"/>
+        <result property="loraName" column="lora_name"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!--    id对应mapper里面的方法名;resultType是方法返回的数据类型，对应实体类的数据库类-->
+    <insert id="addULM" useGeneratedKeys="true" keyProperty="id">
+        insert into user_lora_model values (#{id}, #{user_id}, #{url}, #{del_flag}, #{create_time})
+    </insert>
+
+    <select id="getInUse" resultType="com.charmai.miniapp.entity.UserLoraModelEntity">
+        select * from user_lora_model where user_id = #{userId} and del_flag = 0;
+    </select>
+
+    <select id="getHistoryUse" resultType="string">
+        select lora_url from user_lora_model where user_id = #{userId} and del_flag = 1;
+    </select>
+
+    <update id="changeULM" >
+        update user_lora_model set del_flag = 1 where user_id = #{userId} and del_flag = 0;
+        update user_lora_model set del_flag = 0 where user_id = #{userId} and lora_url = #{url};
+    </update>
+
+    <delete id="delHistory">
+        delete from user_lora_model where user_id = #{userId} and del_flag = 1;
+    </delete>
+</mapper>

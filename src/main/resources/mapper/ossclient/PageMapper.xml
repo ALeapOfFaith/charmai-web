@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace对应哪个mapper文件 -->
+<mapper namespace="com.charmai.oss.client.mapper.PageMapper">
+    <select id="getHomePagePic" resultType="string">
+        select url from charmai
+    </select>
+</mapper>

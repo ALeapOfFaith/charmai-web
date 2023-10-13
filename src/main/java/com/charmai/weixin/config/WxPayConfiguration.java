@@ -1,0 +1,60 @@
+/**
+ * Copyright (C) 2018-2019
+ * All rights reserved, Designed By www.joolun.com
+ * 注意：
+ * 本软件为www.joolun.com开发研制，项目使用请保留此说明
+ */
+package com.charmai.weixin.config;
+
+import com.github.binarywang.wxpay.config.WxPayConfig;
+import com.github.binarywang.wxpay.service.WxPayService;
+import com.github.binarywang.wxpay.service.impl.WxPayServiceImpl;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * 微信支付Configuration
+ * @author www.joolun.com
+ *
+ */
+@Slf4j
+@Configuration
+@EnableConfigurationProperties(WxMaProperties.class)
+public class WxPayConfiguration {
+
+	private static WxMaProperties wxMaProperties;
+
+	@Autowired
+	public WxPayConfiguration(WxMaProperties wxMaProperties) {
+		this.wxMaProperties = wxMaProperties;
+	}
+
+	/**
+	 *  获取WxMpService
+	 * @return
+	 */
+	@Bean
+	@ConditionalOnMissingBean
+	public WxPayService getPayService() {
+		WxPayService wxPayService = null;
+		WxPayConfig payConfig = new WxPayConfig();
+		payConfig.setAppId(wxMaProperties.getConfigs().get(0).getAppId());
+		payConfig.setMchId(wxMaProperties.getConfigs().get(0).getMchId());
+//		payConfig.setMchKey(wxMaProperties.getConfigs().get(0).getMchKey());
+		payConfig.setKeyPath(wxMaProperties.getConfigs().get(0).getKeyPath());
+		payConfig.setApiV3Key(wxMaProperties.getConfigs().get(0).getApiV3Key());
+		payConfig.setPrivateKeyPath(wxMaProperties.getConfigs().get(0).getPrivateKeyPath());
+		payConfig.setPrivateCertPath(wxMaProperties.getConfigs().get(0).getPrivateCertPath());
+		payConfig.setKeyPath(wxMaProperties.getConfigs().get(0).getKeyPath());
+		// 可以指定是否使用沙箱环境
+		payConfig.setUseSandboxEnv(false);
+		wxPayService = new WxPayServiceImpl();
+		wxPayService.setConfig(payConfig);
+		return wxPayService;
+    }
+
+}
